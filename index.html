@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <title>Mogo</title>
+    <meta name="viewport" content="width=1170">
+</head>
+
+<body>
+    <div id="container" class="container">
+        <p>А ТЫ ПРИДЕШЬ НА СВАДЬБУ?</p>
+    </div>
+
+    <script>
+        let elem = document.getElementById('container');
+        let a = document.createElement('a');
+        a.className = "button";
+        a.insertAdjacentHTML('beforeend', '<span class="first" type="submit" onclick="showNext()">ДА!</span>');
+        setTimeout(() => {
+            elem.append(a);
+        }, 5000);
+
+
+
+        // function showNext() {
+        //     let span = document.querySelector('span');
+        //     if (span.className ==='first') {
+        //         span.className = "second";
+        //     }            
+
+        //     let text = false
+
+        //     setTimeout(() => {
+        //         action.textContent = 'НИКАК';
+        //         text = true
+        //     }, 500);
+
+        //     const interval = setInterval(function() {
+        //         if (text) {
+        //             span.className = 'third';
+        //         }
+        //     }, 10)
+
+        //     let div = document.createElement('div');
+        //     let metoo = false;
+
+        //     const buttonInterval = setInterval( function(){
+        //         if (span.className === 'third') {
+        //             setTimeout( () => div.insertAdjacentHTML("beforeend", '<a class="btn" href="#">Я тоже!</a>'), 500);
+        //             document.body.append(div);
+        //         }
+        //     }, 10)
+        // }
+
+        function showNext() {
+            let newShowNext = new Promise((resolve, reject) => {
+                let span = document.querySelector('span');
+                if (span.className === 'first') {
+                    span.className = 'second';
+                    resolve(span);
+                } else reject(new Error('secondClick'));
+            }).then(span => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        span.textContent = 'ДА';
+                        resolve(span);
+                    }, 500);
+                });
+            }).then(span => {
+                return new Promise((resolve, reject) => {
+                    span.className = 'third';
+
+                    resolve();
+                })
+            }).then(() => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        let div = document.createElement('div');
+                        div.className = 'div__inner'
+                        div.insertAdjacentHTML("beforeend", '<a class="btn" onclick="showLast()">СУПЕР!</a>')
+                        elem.append(div);
+                        resolve(div);
+                    }, 1500);
+                });
+            })
+            // .then( div => {
+            //     return new Promise((resolve, reject) => {
+            //         setTimeout(() => {
+            //             div.insertAdjacentHTML("beforeend", '<a class="btn2">респект</a>');
+            //         }, 3000);                   
+            //     })
+            // })
+        }
+
+        function showLast(div) {
+            let showLastPromise = new Promise((resolve, reject) => {
+                let a = document.querySelectorAll('a')[1];
+
+                var yesButton = document.getElementsByClassName('third')[0];
+                console.log(yesButton)
+                yesButton?.remove()
+
+                const button = document.getElementsByClassName('button')[0]
+                button?.remove()
+
+                if (a.className === 'btn') {
+                    a.className = 'btn__prelast';
+                    setTimeout(() => {
+                        resolve(a);
+                    }, 500);
+                } else reject(new Error(secondClick));
+            }).then((a) => {
+                a.textContent = '16:45 30.07 Vnykovo Village,  Зал"Суриков", д.Картмазово, ул.Киевская д.4';
+                a.className = 'btn__last';
+            })
+
+        }
+
+
+    </script>
+</body>
+
+</html>
